@@ -1,12 +1,11 @@
-package med.voll.api.paciente;
+package med.voll.api.domain.paciente;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.endereco.Endereco;
-
+import med.voll.api.domain.endereco.Endereco;
 
 
 @Table(name = "pacientes")
@@ -18,15 +17,19 @@ import med.voll.api.endereco.Endereco;
 public class Paciente {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private Boolean ativo;
     private String email;
+
     private String telefone;
+
     private String cpf;
-    private String endereco;
+
+    @Embedded
+    private Endereco endereco;
+
+    private Boolean ativo;
 
     public Paciente(DadosCadastroPaciente dados) {
         this.ativo = true;
@@ -34,7 +37,7 @@ public class Paciente {
         this.email = dados.email();
         this.telefone = dados.telefone();
         this.cpf = dados.cpf();
-        this.endereco = String.valueOf(new Endereco(dados.endereco()));
+        this.endereco = new Endereco(dados.endereco());
     }
 
     public void atualizarInformacoes(DadosAtualizacaoPaciente dados) {
@@ -45,14 +48,12 @@ public class Paciente {
             this.telefone = dados.telefone();
 
         if (dados.endereco() != null)
-            this.endereco = String.valueOf(dados.endereco());
+            this.endereco.atualizarInformacoes(dados.endereco());
 
     }
 
     public void inativar() {
         this.ativo = false;
     }
-
-
 
 }
