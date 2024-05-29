@@ -34,8 +34,10 @@ public class MedicoController {
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemMedico>> listar(Pageable paginacao){
-        var page = repository.findAll((org.springframework.data.domain.Pageable)paginacao).map(DadosListagemMedico::new);
-        return ResponseEntity.ok(page);
+
+            var page = repository.findAll((org.springframework.data.domain.Pageable)paginacao).map(DadosListagemMedico::new);
+            return ResponseEntity.ok(page);
+
     }
 
     @PutMapping
