@@ -17,8 +17,6 @@ import java.time.ZoneOffset;
 public class TokenService {
 
 
-    private static final String ISSUER = "API Voll.med";
-
     @Value("${api.security.token.secret}")
     private String secret;
 
@@ -26,7 +24,7 @@ public class TokenService {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withIssuer(ISSUER)
+                    .withIssuer("API Voll.med")
                     .withSubject(usuario.getLogin())
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritmo);
@@ -39,7 +37,7 @@ public class TokenService {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.require(algoritmo)
-                    .withIssuer(ISSUER)
+                    .withIssuer("API Voll.med")
                     .build()
                     .verify(tokenJWT)
                     .getSubject();
@@ -49,7 +47,7 @@ public class TokenService {
     }
 
     private Instant dataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusHours(8).toInstant(ZoneOffset.of("-03:00"));
     }
 
 }

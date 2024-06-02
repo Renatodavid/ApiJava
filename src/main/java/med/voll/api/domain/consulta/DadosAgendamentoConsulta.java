@@ -3,15 +3,16 @@ package med.voll.api.domain.consulta;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import med.voll.api.domain.medico.Especialidade;
-import org.springframework.context.annotation.Bean;
+
 
 import java.time.LocalDateTime;
 
 
 public record DadosAgendamentoConsulta(
 
-        @NotNull
+
         Long idMedico,
+
         @NotNull
         Long idPaciente,
 

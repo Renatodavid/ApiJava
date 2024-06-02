@@ -16,8 +16,8 @@ public class Endereco {
 
     private String logradouro;
     private String bairro;
-    private String numero;
     private String cep;
+    private String numero;
     private String complemento;
     private String cidade;
     private String uf;
@@ -36,7 +36,7 @@ public class Endereco {
     public void atualizarInformacoes(DadosEndereco dados) {
 
         if(dados.logradouro()!= null){
-            this.logradouro = logradouro;
+            this.logradouro = dados.logradouro();
         }
         if (dados.bairro() != null) {
             this.bairro = dados.bairro();

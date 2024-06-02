@@ -1,24 +1,19 @@
 package med.voll.api.controler;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.domain.consulta.AgendaDeConsultas;
 import med.voll.api.domain.consulta.DadosAgendamentoConsulta;
-import med.voll.api.domain.consulta.DadosdetalhamentoConsulta;
-import med.voll.api.domain.consulta.MotivoCancelamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("consultas")
+@SecurityRequirement(name = "bearer-key")
 public class ConsultaController {
 
     @Autowired
@@ -27,12 +22,14 @@ public class ConsultaController {
     @PostMapping
     @Transactional
     public ResponseEntity agendar(@RequestBody @Valid DadosAgendamentoConsulta dados ){
-       agenda.agendar(dados);
-        return ResponseEntity.ok(new DadosdetalhamentoConsulta(null, null, null, null));
+      var dto = agenda.agendar(dados);
+        return ResponseEntity.ok(dto);
     }
 
-    public ResponseEntity cancelar(@RequestBody @Valid DadosCancelamentoConsulta dados ){
-        agenda.cancelar(dados);
+    @DeleteMapping
+    @Transactional
+    public ResponseEntity cancelar(@RequestBody @Valid DadosAgendamentoConsulta dados ){
+        agenda.agendar(dados);
         return ResponseEntity.noContent().build();
     }
 
